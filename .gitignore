@@ -1,0 +1,12 @@
+#.gitignore file
+
+#Ignore all files
+**/*
+
+#Keep these files
+!.gitignore
+!build.sh
+!create-archlinux-template.sh
+!create-image.sh
+!LICENSE
+!README.md
