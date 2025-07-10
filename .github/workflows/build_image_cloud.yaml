@@ -1,0 +1,57 @@
+name: Build Arch Linux image for Aarch64
+
+# Workflow to build an Arch Linux image for Aarch64
+on:
+  push:
+    tags:
+      - '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest-arm64
+    # Note: Images built on a self-hosted runner are approximately half the size (~300MB) compared to those built on a GitHub-hosted runner (~600MB).
+    # runs-on: self-hosted
+    name: Build Images
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+
+    strategy:
+      matrix:
+        model_name:
+          - "generic-uefi"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        run: |
+          # Extract just the build number (e.g., "01") from a tag like "20250511-01"
+          # ${GITHUB_REF_NAME} will be the tag name, e.g., 20250511-01
+          # ${GITHUB_REF_NAME##*-} extracts just the 01 part.
+          export BUILD_SUFFIX="${GITHUB_REF_NAME##*-}"
+          bash ./create-image.sh
+          cp -r /tmp/lima/output/Arch-Linux-aarch64-cloudimg-*.xz .
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: "Arch-Linux-aarch64-cloudimg-*.xz"
+
+      - name: Upload to GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "Arch-Linux-aarch64-cloudimg-*.xz"
+          makeLatest: true
+          allowUpdates: true
+          omitBody: true
+
+      - name: Cleanup output directory
+        run: |
+          echo "Before cleanup:" && ls -lh /tmp/lima/output/
+          rm -f /tmp/lima/output/*
+          echo "After cleanup:" && ls -lh /tmp/lima/output/
