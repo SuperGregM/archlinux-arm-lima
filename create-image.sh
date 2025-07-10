@@ -284,28 +284,28 @@ sudo losetup --detach $LOOPDEV
 # --- Create VM images ---
 RAW_IMG="$IMAGE_NAME"
 QCOW2_IMG="${IMAGE_NAME%.img}.qcow2"
-# VMDK_IMG="${IMAGE_NAME%.img}.vmdk"
+VMDK_IMG="${IMAGE_NAME%.img}.vmdk"
 
 printf '%s Creating VM images ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 sudo qemu-img convert -p -O qcow2 "$RAW_IMG" "$QCOW2_IMG"
-# sudo qemu-img convert -p -O vmdk "$RAW_IMG" "$VMDK_IMG"
+sudo qemu-img convert -p -O vmdk "$RAW_IMG" "$VMDK_IMG"
 
 if [ "$COMPRESS" = 1 ]; then
     printf '%s Compressing images ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-    # sudo xz -T 0 --verbose "$RAW_IMG"
+    sudo xz -T 0 --verbose "$RAW_IMG"
     sudo xz -T 0 --verbose "$QCOW2_IMG"
-    # sudo xz -T 0 --verbose "$VMDK_IMG"
+    sudo xz -T 0 --verbose "$VMDK_IMG"
 fi
 
 printf '%s All images created:%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 if [ "$COMPRESS" = 1 ]; then
-    # echo "  Raw:   $RAW_IMG.xz"
+    echo "  Raw:   $RAW_IMG.xz"
     echo "  QCOW2: $QCOW2_IMG.xz"
-    # echo "  VMDK:  $VMDK_IMG.xz"
+    echo "  VMDK:  $VMDK_IMG.xz"
 else
-    # echo "  Raw:   $RAW_IMG"
+    echo "  Raw:   $RAW_IMG"
     echo "  QCOW2: $QCOW2_IMG"
-    # echo "  VMDK:  $VMDK_IMG"
+    echo "  VMDK:  $VMDK_IMG"
 fi
 printf '%s Static build finished.%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 
