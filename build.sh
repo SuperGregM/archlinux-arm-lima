@@ -96,7 +96,7 @@ else
 fi
 
 printf "%s Starting create-image.sh in %s VM%s\n" "$TEXT_GREEN" "$VM_NAME" "$FORMAT_RESET"
-# limactl shell "$VM_NAME" BUILD_SUFFIX="$Version_Number" ./create-image.sh
+limactl shell "$VM_NAME" BUILD_SUFFIX="$Version_Number" ./create-image.sh
 
 printf "%s Creating archlinux.yaml for lima-vm%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
-# ./create-archlinux-template.sh
+./create-archlinux-template.sh
