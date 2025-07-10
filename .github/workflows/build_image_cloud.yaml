@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-24.04-arm
     # Note: Images built on a self-hosted runner are approximately half the size (~300MB) compared to those built on a GitHub-hosted runner (~600MB).
     # runs-on: self-hosted
     name: Build Images
