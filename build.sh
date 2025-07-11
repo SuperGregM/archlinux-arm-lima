@@ -42,6 +42,12 @@ BACKGROUND_WHITE=$'\e[47m'
 
 ##################################################################################################################
 
+VM_NAME="build-arch"
+BUILD_SUFFIX="${Version_Number:-0}"
+IMAGE_NAME="Arch-Linux-aarch64-cloudimg-$(date '+%Y%m%d').${BUILD_SUFFIX}.img"
+QCOW2_IMG_FILE="${IMAGE_NAME%.img}.qcow2.xz"
+VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
+
 # --- Prevent running inside a Lima VM ---
 if [ -f /run/lima-boot-done ] || [ -n "$LIMA_INSTANCE" ]; then
     printf "%s [ERROR] This script must be run on the host, not inside a Lima VM. Exiting.%s\n" "$TEXT_RED" "$FORMAT_RESET"
@@ -69,12 +75,6 @@ while [ -n "$1" ]; do
     esac
     shift
 done
-
-VM_NAME="build-arch"
-BUILD_SUFFIX="${Version_Number:-0}"
-IMAGE_NAME="Arch-Linux-aarch64-cloudimg-$(date '+%Y%m%d').${BUILD_SUFFIX}.img"
-QCOW2_IMG_FILE="${IMAGE_NAME%.img}.qcow2.xz"
-VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 
 [[ -f /tmp/lima/output/"$IMAGE_NAME" ]] && rm -f /tmp/lima/output/"$IMAGE_NAME"
 [[ -f /tmp/lima/output/"$QCOW2_IMG_FILE" ]] && rm -f /tmp/lima/output/"$QCOW2_IMG_FILE"
