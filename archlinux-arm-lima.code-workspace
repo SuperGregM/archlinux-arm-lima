@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "archlinux-arm-lima",
+			"path": "."
+		},
+		{
+			"name": "output",
+			"path": "/tmp/lima/output"
+		}
+	],
+	"settings": {
+		"window.title": "${rootName}"
+	}
+}

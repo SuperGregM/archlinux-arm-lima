@@ -5,6 +5,7 @@
 
 #Keep these files
 !.gitignore
+!archlinux-arm-lima.code-workspace
 !build.sh
 !create-archlinux-template.sh
 !create-image.sh
