@@ -1,5 +1,7 @@
 # Arch Linux ARM Cloud Image Builder for Lima-VM - The Arch Way
 
+![alt archlinux-arm logo](https://archlinuxarm.org/public/images/alarm.png)
+
 This project automates the creation of an Arch Linux ARM (aarch64) cloud image suitable for use with [Lima-VM](https://github.com/lima-vm/lima) on macOS and Linux hosts. It provides scripts to build, convert, and prepare images, and to generate a Lima-VM template for easy VM deployment.
 
 ## Prerequisites
@@ -16,7 +18,16 @@ This project automates the creation of an Arch Linux ARM (aarch64) cloud image s
 
 ## Usage
 
-### 1. Build the Image
+### 1. Clone this Repository
+
+First, clone this repository and change into its directory:
+
+```sh
+git clone https://github.com/SuperGregM/archlinux-arm-lima.git
+cd archlinux-arm-lima
+```
+
+### 2. Build the Image
 
 Run the main build script from your host (macOS or Linux):
 
@@ -46,7 +57,7 @@ If you run `./build.sh` with no options, it will build the default version (vers
 
 **Note:** If you reuse a version (e.g., run `./build.sh` or `./build.sh -v 1` again), any previous build files for that version will be deleted before building a new image.
 
-### 2. Use the Image with Lima
+### 3. Use the Image with Lima
 
 After a successful build, a file like `archlinux.yaml` will be created in the project directory. You can start a Lima VM using this template:
 
