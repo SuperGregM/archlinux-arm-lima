@@ -83,9 +83,9 @@ VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 # echo "Version Number: $Version_Number"
 # exit 0
 
-# check if build-arch exists and running
-if ! limactl list | grep "$VM_NAME" | grep -q Running; then
-    printf " %s Starting build-arch VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+# check if build VM exists and running
+if ! limactl list | grep -E "(^|[[:space:]])$VM_NAME([[:space:]]|$)" | grep -q Running; then
+    printf " %s Starting $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
     if [ "$debian_sid" == "true" ]; then
         limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://experimental/debian-sid
     else
