@@ -65,8 +65,12 @@ while [ -n "$1" ]; do
         debian_sid="true"
         ;;
     -k | --kill)
-        printf " %s Killing build-arch VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
-        limactl delete --force build-arch
+        if limactl list | grep -E "(^|[[:space:]])$VM_NAME([[:space:]]|$)"; then
+            printf " %s Killing $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+            limactl delete --force "$VM_NAME"
+        else
+            printf " %s VM $VM_NAME does not exist.%s\n" "$TEXT_YELLOW" "$FORMAT_RESET"
+        fi
         ;;
     *)
         printf " %s Unknown option %s%s\n" "$TEXT_RED" "$1" "$FORMAT_RESET"
