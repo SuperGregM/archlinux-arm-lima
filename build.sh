@@ -61,11 +61,9 @@ while [ -n "$1" ]; do
         debian_sid="true"
         ;;
     -k | --kill)
-        if limactl list | grep -E "(^|[[:space:]])$VM_NAME([[:space:]]|$)"; then
+        if limactl list 2>/dev/null | grep -qE "(^|[[:space:]])$VM_NAME([[:space:]]|$)" 2>/dev/null; then
             printf " %s Killing $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
             limactl delete --force "$VM_NAME"
-        else
-            printf " %s VM $VM_NAME does not exist.%s\n" "$TEXT_YELLOW" "$FORMAT_RESET"
         fi
         ;;
     *)
@@ -89,7 +87,7 @@ VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 # exit 0
 
 # check if build VM exists and running
-if ! limactl list | grep -E "(^|[[:space:]])$VM_NAME([[:space:]]|$)" | grep -q Running; then
+if ! limactl list 2>/dev/null | grep -qE "(^|[[:space:]])$VM_NAME([[:space:]]|$)" 2>/dev/null | grep -q Running 2>/dev/null; then
     printf " %s Starting $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
     if [ "$debian_sid" == "true" ]; then
         limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://experimental/debian-sid
