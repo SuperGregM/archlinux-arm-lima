@@ -63,7 +63,6 @@ declare -A pkg_map=(
     ["update-ca-certificates"]=ca-certificates
     ["curl"]=curl
     ["mkfs.fat"]=dosfstools
-    # ["bsdtar"]=libarchive-tools
     ["makepkg"]=makepkg
     ["pacman"]=pacman-package-manager
     ["parted"]=parted
