@@ -50,6 +50,12 @@ if [ -f /run/lima-boot-done ] || [ -n "$LIMA_INSTANCE" ]; then
     exit 1
 fi
 
+# --- Check if limactl is installed ---
+if ! command -v limactl >/dev/null 2>&1; then
+    printf "%s [ERROR] limactl is not installed or not in PATH. Exiting.%s\n" "$TEXT_RED" "$FORMAT_RESET"
+    exit 1
+fi
+
 while [ -n "$1" ]; do
     case "$1" in
     -v | --version)
