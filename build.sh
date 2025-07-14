@@ -87,15 +87,23 @@ VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 # exit 0
 
 # check if build VM exists and running
-if ! limactl list 2>/dev/null | grep -qE "(^|[[:space:]])$VM_NAME([[:space:]]|$)" 2>/dev/null | grep -q Running 2>/dev/null; then
-    printf " %s Starting $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+Build_VM=$(limactl list 2>/dev/null)
+VM_STATE=$(echo "$Build_VM" | awk -v vm="$VM_NAME" '$1 == vm {print $2}')
+if [ -z "$VM_STATE" ]; then
+    printf " %s Creating $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
     if [ "$debian_sid" == "true" ]; then
         limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://experimental/debian-sid
     else
         limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://ubuntu
     fi
-else
+elif [ "$VM_STATE" = "Running" ]; then
     printf "%s %s VM is already running%s\n" "$TEXT_GREEN" "$VM_NAME" "$FORMAT_RESET"
+elif [ "$VM_STATE" = "Stopped" ]; then
+    printf "%s Starting stopped $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+    limactl start "$VM_NAME"
+else
+    printf "%s Unknown VM state for %s (%s)%s\n" "$TEXT_RED" "$VM_NAME" "$VM_STATE" "$FORMAT_RESET"
+    exit 1
 fi
 
 printf "%s Starting create-image.sh in %s VM%s\n" "$TEXT_GREEN" "$VM_NAME" "$FORMAT_RESET"
