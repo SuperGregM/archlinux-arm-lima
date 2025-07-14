@@ -228,10 +228,10 @@ printf '%s Installing cloud-guest-utils ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman -Sy cloud-guest-utils --needed --noconfirm
 
 printf '%s Installing cloud-init ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-CLOUDINIT_PKG="cloud-init-25.1.2-1-any.pkg.tar.zst"
-curl -LO --output-dir /tmp/ "https://archive.archlinux.org/packages/c/cloud-init/$CLOUDINIT_PKG"
-pacman -U /tmp/"$CLOUDINIT_PKG" --needed --noconfirm
-rm -f /tmp/"$CLOUDINIT_PKG"
+CLOUD_INIT_PKG="cloud-init-25.1.2-1-any.pkg.tar.zst"
+curl -LO --output-dir /tmp/ "https://archive.archlinux.org/packages/c/cloud-init/$CLOUD_INIT_PKG"
+pacman -U /tmp/"$CLOUD_INIT_PKG" --needed --noconfirm
+rm -f /tmp/"$CLOUD_INIT_PKG"
 
 printf '%s Enabling cloud-init services ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 systemctl enable cloud-init-main.service
