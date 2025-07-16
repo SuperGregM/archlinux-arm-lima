@@ -217,6 +217,8 @@ pacman -Sy grub efibootmgr --noconfirm
 
 printf '%s Append the following cmdline to grub: %s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 sed -i "s/^GRUB_CMDLINE_LINUX_DEFAULT=\".*\"/GRUB_CMDLINE_LINUX_DEFAULT=\"console=ttyAMA0\"/" /etc/default/grub
+# Set GRUB timeout to 0 (no menu shown)
+sed -i "s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/; t; aGRUB_TIMEOUT=0" /etc/default/grub
 
 printf '%s Installing GRUB ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 grub-install --target=arm64-efi --efi-directory=/boot --removable
