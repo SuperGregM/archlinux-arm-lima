@@ -210,9 +210,11 @@ locale-gen
 printf '%s Setting /etc/hostname ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 echo "archarm" > /etc/hostname
 
-printf '%s Installing GRUB bootloader ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
+printf '%s Setting up pacman ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman-key --init
 pacman-key --populate archlinuxarm
+
+printf '%s Installing GRUB bootloader ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman -Sy grub efibootmgr --noconfirm
 
 printf '%s Append the following cmdline to grub: %s\n' "$TEXT_GREEN" "$FORMAT_RESET"
