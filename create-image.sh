@@ -144,7 +144,7 @@ for EXTRA_KEYRING_FILE in $EXTRA_KEYRING_FILES; do
     else
         printf '%s Downloading %s...%s\n' "$TEXT_GREEN" "$EXTRA_KEYRING_FILE" "$FORMAT_RESET"
         sudo mkdir -p /usr/share/keyrings
-        sudo curl "$EXTRA_KEYRING_URL$EXTRA_KEYRING_FILE" -o /usr/share/keyrings/$EXTRA_KEYRING_FILE -L
+        sudo curl "$EXTRA_KEYRING_URL$EXTRA_KEYRING_FILE" -o /usr/share/keyrings/"$EXTRA_KEYRING_FILE" -L
     fi
 done
 
@@ -160,23 +160,23 @@ printf '%s Setting up loop device...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 LOOPDEV=$(sudo losetup -fP --show "$IMAGE_NAME")
 
 printf '%s Partitioning image...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-sudo parted -s $LOOPDEV mklabel gpt
-sudo parted -s $LOOPDEV mkpart ESP fat32 1MiB 513MiB
-sudo parted -s $LOOPDEV set 1 boot on
-sudo parted -s $LOOPDEV set 1 esp on
-sudo parted -s $LOOPDEV mkpart primary ext4 513MiB 100%
+sudo parted -s "$LOOPDEV" mklabel gpt
+sudo parted -s "$LOOPDEV" mkpart ESP fat32 1MiB 513MiB
+sudo parted -s "$LOOPDEV" set 1 boot on
+sudo parted -s "$LOOPDEV" set 1 esp on
+sudo parted -s "$LOOPDEV" mkpart primary ext4 513MiB 100%
 
 printf '%s Formatting partitions...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 BOOTP="${LOOPDEV}p1"
 ROOTP="${LOOPDEV}p2"
-sudo mkfs.fat -F32 $BOOTP
-sudo mkfs.ext4 -E lazy_itable_init=1,lazy_journal_init=1 $ROOTP
+sudo mkfs.fat -F32 "$BOOTP"
+sudo mkfs.ext4 -E lazy_itable_init=1,lazy_journal_init=1 "$ROOTP"
 
 printf '%s Mounting partitions...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 sudo mkdir -p /mnt/arch-root
-sudo mount $ROOTP /mnt/arch-root
+sudo mount "$ROOTP" /mnt/arch-root
 sudo mkdir -p /mnt/arch-root/boot
-sudo mount $BOOTP /mnt/arch-root/boot
+sudo mount "$BOOTP" /mnt/arch-root/boot
 
 printf '%s Installing base system...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 sudo pacman-key --init
@@ -282,7 +282,7 @@ fi
 printf '%s Unmounting root partition ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 sudo umount /mnt/arch-root || sudo umount -l /mnt/arch-root
 
-sudo losetup --detach $LOOPDEV
+sudo losetup --detach "$LOOPDEV"
 
 # --- Create VM images ---
 RAW_IMG="$IMAGE_NAME"
