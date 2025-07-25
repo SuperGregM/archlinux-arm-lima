@@ -208,7 +208,7 @@ echo "LANG=en_US.UTF-8" >/etc/locale.conf
 locale-gen
 
 printf '%s Setting /etc/hostname ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-echo "archarm" > /etc/hostname
+echo "archarm" >/etc/hostname
 
 printf '%s Setting up pacman ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman-key --init
@@ -259,7 +259,6 @@ systemctl enable systemd-resolved.service
 printf '%s Installing OpenSSH ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman -Sy openssh --needed --noconfirm
 
-
 printf '%s Enabling OpenSSH Daemon ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 systemctl enable sshd.service
 
@@ -274,6 +273,7 @@ sudo sync
 sudo rm -f /mnt/arch-root/zero.fill
 
 # --- Unmount boot if still mounted ---
+printf '%s Unmounting boot partition ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 if mountpoint -q /mnt/arch-root/boot; then
     sudo umount /mnt/arch-root/boot || sudo umount -l /mnt/arch-root/boot
 fi
