@@ -165,6 +165,8 @@ sudo parted -s "$LOOPDEV" mkpart ESP fat32 1MiB 513MiB
 sudo parted -s "$LOOPDEV" set 1 boot on
 sudo parted -s "$LOOPDEV" set 1 esp on
 sudo parted -s "$LOOPDEV" mkpart primary ext4 513MiB 100%
+sudo parted -s "$LOOPDEV" name 1 BOOT
+sudo parted -s "$LOOPDEV" name 2 ROOT
 
 printf '%s Formatting partitions...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 BOOTP="${LOOPDEV}p1"
@@ -209,6 +211,14 @@ locale-gen
 
 printf '%s Setting /etc/hostname ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 echo "archarm" >/etc/hostname
+
+PARTUUID_ROOT=$(blkid -s PARTUUID -o value /dev/disk/by-partlabel/ROOT)
+PARTUUID_BOOT=$(blkid -s PARTUUID -o value /dev/disk/by-partlabel/BOOT)
+printf '%s Setting up /etc/fstab ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
+cat <<FSTAB >>/etc/fstab
+PARTUUID=$PARTUUID_ROOT  /       ext4    defaults,noatime    0 1
+PARTUUID=$PARTUUID_BOOT  /boot   vfat    defaults            0 2
+FSTAB
 
 printf '%s Setting up pacman ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman-key --init
