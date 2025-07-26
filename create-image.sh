@@ -224,19 +224,23 @@ printf '%s Setting up pacman ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-printf '%s Installing GRUB bootloader ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-pacman -Sy grub efibootmgr --noconfirm
+printf "%s Setting up bootloader (systemd-boot) ...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+bootctl install --esp-path=/boot
 
-printf '%s Append the following cmdline to grub: %s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-sed -i "s/^GRUB_CMDLINE_LINUX_DEFAULT=\".*\"/GRUB_CMDLINE_LINUX_DEFAULT=\"console=ttyAMA0\"/" /etc/default/grub
-# Set GRUB timeout to 0 (no menu shown)
-sed -i "s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/; t; aGRUB_TIMEOUT=0" /etc/default/grub
+printf '%s Creating loader.conf ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
+cat <<EOF >/boot/loader/loader.conf
+default arch
+timeout 0
+console-mode max
+EOF
 
-printf '%s Installing GRUB ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-grub-install --target=arm64-efi --efi-directory=/boot --removable
-
-printf '%s Generating GRUB config ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
-grub-mkconfig -o /boot/grub/grub.cfg
+printf '%s Creating entry for Arch Linux ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
+cat <<EOF >/boot/loader/entries/arch.conf
+title   Arch Linux ARM
+efi     /vmlinuz-linux
+options root=PARTUUID=$PARTUUID_ROOT rw console=ttyAMA0 rootwait
+initrd  /initramfs-linux.img
+EOF
 
 printf '%s Installing cloud-guest-utils ...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 pacman -Sy cloud-guest-utils --needed --noconfirm
