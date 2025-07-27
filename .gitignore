@@ -4,6 +4,9 @@
 **/*
 
 #Keep these files
+!.github/
+!.github/workflows/
+!.github/workflows/build_image_cloud.yaml
 !.gitignore
 !archlinux-arm-lima.code-workspace
 !build.sh
