@@ -72,8 +72,6 @@ This will launch a VM using your custom Arch Linux ARM image.
 - Images are saved in `/tmp/lima/output/` (e.g., `.img.xz`, `.qcow2.xz`, `.vmdk.xz`)
 - The Lima template is `archlinux.yaml` in the project directory
 
----
-
 ## Notes
 
 - The build process requires root privileges inside the build VM for disk and package operations.
