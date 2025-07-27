@@ -89,9 +89,6 @@ VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 [[ -f /tmp/lima/output/"$QCOW2_IMG_FILE" ]] && rm -f /tmp/lima/output/"$QCOW2_IMG_FILE"
 [[ -f /tmp/lima/output/"$VMDK_IMG_FILE" ]] && rm -f /tmp/lima/output/"$VMDK_IMG_FILE"
 
-# echo "Version Number: $Version_Number"
-# exit 0
-
 # check if build VM exists and running
 Build_VM=$(limactl list 2>/dev/null)
 VM_STATE=$(echo "$Build_VM" | awk -v vm="$VM_NAME" '$1 == vm {print $2}')
