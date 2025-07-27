@@ -37,6 +37,18 @@ jobs:
           bash ./create-image.sh
           cp -r /tmp/lima/output/Arch-Linux-aarch64-cloudimg-*.xz .
 
+      - name: Copy as latest for each format
+        run: |
+          for f in Arch-Linux-aarch64-cloudimg-*.xz; do
+            if [[ "$f" == *.img.xz ]]; then
+              cp "$f" Arch-Linux-aarch64-cloudimg-latest.img.xz
+            elif [[ "$f" == *.qcow2.xz ]]; then
+              cp "$f" Arch-Linux-aarch64-cloudimg-latest.qcow2.xz
+            elif [[ "$f" == *.vmdk.xz ]]; then
+              cp "$f" Arch-Linux-aarch64-cloudimg-latest.vmdk.xz
+            fi
+          done
+
       - name: Attest build provenance
         uses: actions/attest-build-provenance@v1
         with:
