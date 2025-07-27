@@ -82,10 +82,12 @@ done
 
 BUILD_SUFFIX="${Version_Number:-0}"
 IMAGE_NAME="Arch-Linux-aarch64-cloudimg-$(date '+%Y%m%d').${BUILD_SUFFIX}.img"
+IMAGE_FILE="$IMAGE_NAME.xz"
 QCOW2_IMG_FILE="${IMAGE_NAME%.img}.qcow2.xz"
 VMDK_IMG_FILE="${IMAGE_NAME%.img}.vmdk.xz"
 
 [[ -f /tmp/lima/output/"$IMAGE_NAME" ]] && rm -f /tmp/lima/output/"$IMAGE_NAME"
+[[ -f /tmp/lima/output/"$IMAGE_FILE" ]] && rm -f /tmp/lima/output/"$IMAGE_FILE"
 [[ -f /tmp/lima/output/"$QCOW2_IMG_FILE" ]] && rm -f /tmp/lima/output/"$QCOW2_IMG_FILE"
 [[ -f /tmp/lima/output/"$VMDK_IMG_FILE" ]] && rm -f /tmp/lima/output/"$VMDK_IMG_FILE"
 
