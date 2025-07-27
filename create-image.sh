@@ -312,6 +312,13 @@ if [ "$COMPRESS" = 1 ]; then
     sudo xz -T 0 --verbose "$RAW_IMG"
     sudo xz -T 0 --verbose "$QCOW2_IMG"
     sudo xz -T 0 --verbose "$VMDK_IMG"
+
+    # Only copy as latest for each format if running in GitHub Actions CI/CD
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+        cp -fv "$RAW_IMG.xz" Arch-Linux-aarch64-cloudimg-latest.img.xz
+        cp -fv "$QCOW2_IMG.xz" Arch-Linux-aarch64-cloudimg-latest.qcow2.xz
+        cp -fv "$VMDK_IMG.xz" Arch-Linux-aarch64-cloudimg-latest.vmdk.xz
+    fi
 fi
 
 printf '%s All images created:%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
