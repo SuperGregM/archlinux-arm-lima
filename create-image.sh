@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## shellcheck disable=SC2034  # Unused variables left for readability
+# shellcheck disable=SC2034  # Unused variables left for readability
 
 set -e # -e: exit on error
 
