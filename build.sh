@@ -62,6 +62,10 @@ while [ -n "$1" ]; do
         shift
         Version_Number="$1"
         ;;
+    -c | --compress)
+        shift
+        COMPRESS="$1"
+        ;;
     -s | --sid)
         shift
         debian_sid="true"
@@ -74,9 +78,10 @@ while [ -n "$1" ]; do
         ;;
     *)
         printf " %s Unknown option %s%s\n" "$TEXT_RED" "$1" "$FORMAT_RESET"
-        printf " %s Usage: %s\n build.sh [-v <version>] [-s] [-k]" "$TEXT_YELLOW" "$FORMAT_RESET"
+        printf " %s Usage: %s\n build.sh [-v <version>] [-c <compress>] [-s] [-k]" "$TEXT_YELLOW" "$FORMAT_RESET"
         printf "\n Options:\n"
         printf "   -%sv%s  --%sversion%s <#>    Set a custom version suffix for the image filename (default: 0)\n" "$TEXT_YELLOW" "$FORMAT_RESET" "$TEXT_YELLOW" "$FORMAT_RESET"
+        printf "   -%sc%s  --%scompress%s <0|1> Enable or disable compression (default: 1 Enabled)\n" "$TEXT_YELLOW" "$FORMAT_RESET" "$TEXT_YELLOW" "$FORMAT_RESET"
         printf "   -%ss%s  --%ssid%s            Use Debian Sid template instead of Ubuntu\n" "$TEXT_YELLOW" "$FORMAT_RESET" "$TEXT_YELLOW" "$FORMAT_RESET"
         printf "   -%sk%s  --%skill%s           Force delete the existing \"build-arch\" Lima VM\n" "$TEXT_YELLOW" "$FORMAT_RESET" "$TEXT_YELLOW" "$FORMAT_RESET"
         exit 1

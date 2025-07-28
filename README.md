@@ -38,6 +38,7 @@ Run the main build script from your host (macOS or Linux):
 #### Options:
 
 - `-v <version>` or `--version <version>`: Set a custom version suffix for the image filename.
+- `-c` or `--compress <0|1>` Enable or disable compression (default: 1 Enabled).
 - `-s` or `--sid`: Use a Debian Sid VM as the build environment (default is Ubuntu).
 - `-k` or `--kill`: Force delete the existing `build-arch` Lima VM.
 

@@ -100,7 +100,7 @@ fi
 # --- Static configuration ---
 BUILD_SUFFIX="${BUILD_SUFFIX:-0}"
 IMAGE_NAME="Arch-Linux-aarch64-cloudimg-$(date '+%Y%m%d').${BUILD_SUFFIX}.img"
-COMPRESS=1
+COMPRESS="${COMPRESS:-1}"
 WORKDIR=/tmp/lima/output
 
 printf '%s Editing pacman.conf to add Archlinux ARM mirrorlist...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
