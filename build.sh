@@ -71,10 +71,7 @@ while [ -n "$1" ]; do
         debian_sid="true"
         ;;
     -k | --kill)
-        if limactl list 2>/dev/null | grep -qE "(^|[[:space:]])$VM_NAME([[:space:]]|$)" 2>/dev/null; then
-            printf " %s Killing $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
-            limactl delete --force "$VM_NAME"
-        fi
+        DELETE_EXISTING_VM="true"
         ;;
     *)
         printf " %s Unknown option %s%s\n" "$TEXT_RED" "$1" "$FORMAT_RESET"
@@ -103,6 +100,13 @@ mkdir -p "$WORKDIR"
 [[ -f "$WORKDIR/$IMAGE_FILE" ]] && rm -f "$WORKDIR/$IMAGE_FILE"
 [[ -f "$WORKDIR/$QCOW2_IMG_FILE" ]] && rm -f "$WORKDIR/$QCOW2_IMG_FILE"
 [[ -f "$WORKDIR/$VMDK_IMG_FILE" ]] && rm -f "$WORKDIR/$VMDK_IMG_FILE"
+
+if [ "$DELETE_EXISTING_VM" = "true" ]; then
+    if limactl list "$VM_NAME" 2>/dev/null; then
+        printf " %s Killing $VM_NAME VM...%s\n" "$TEXT_GREEN" "$FORMAT_RESET"
+        limactl delete --force "$VM_NAME"
+    fi
+fi
 
 # check if build VM exists and running
 Build_VM=$(limactl list 2>/dev/null)
