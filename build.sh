@@ -112,7 +112,7 @@ if [ -z "$VM_STATE" ]; then
     if [ "$debian_sid" == "true" ]; then
         limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://experimental/debian-sid --mount "$WORKDIR":w
     else
-        limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template://ubuntu --mount "$WORKDIR":w
+        limactl start --yes --containerd none --cpus 12 --memory 16 --disk 10 --name "$VM_NAME" template:ubuntu --mount "$WORKDIR":w
     fi
 elif [ "$VM_STATE" = "Running" ]; then
     printf "%s %s VM is already running%s\n" "$TEXT_GREEN" "$VM_NAME" "$FORMAT_RESET"
