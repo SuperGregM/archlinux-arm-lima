@@ -126,6 +126,15 @@ MIRRORLIST_URL="https://raw.githubusercontent.com/archlinuxarm/PKGBUILDs/master/
 curl -L "$MIRRORLIST_URL" | sed -E 's/^\s*#\s*Server\s*=/Server =/g' | sudo tee /etc/pacman.d/mirrorlist >/dev/null
 sudo sed -i 's/\$arch/aarch64/g' /etc/pacman.d/mirrorlist
 
+printf '%s Adding Arch Linux ARMs default pacman configuration SigLevel...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
+if sudo grep -qx "#SigLevel = Optional" /etc/pacman.conf; then
+    sudo sed 's/^#SigLevel = Optional$/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf | sudo tee /etc/pacman.conf.new >/dev/null
+    sudo mv /etc/pacman.conf.new /etc/pacman.conf
+    echo " Arch Linux ARMs default pacman configuration SigLevel is now set."
+else
+    echo " Arch Linux ARMs default pacman configuration SigLevel is already set."
+fi
+
 printf '%s Adding Archlinux ARM keyring...%s\n' "$TEXT_GREEN" "$FORMAT_RESET"
 # Download and install the Archlinux ARM keyring
 EXTRA_KEYRING_FILES="
