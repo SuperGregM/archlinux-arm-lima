@@ -18,6 +18,16 @@ This project automates the creation of an Arch Linux ARM (aarch64) cloud image s
 
 ## Usage
 
+## A. Use the latest pre-built Arch Linux ARM Image
+
+Check the [Releases](https://github.com/SuperGregM/archlinux-arm-lima/releases/latest) page for the latest pre-built image.
+
+```sh
+limactl start "https://github.com/SuperGregM/archlinux-arm-lima/releases/latest/download/Arch-Linux-aarch64-cloudimg-latest.qcow2.xz"
+```
+
+## B. Build your own Arch Linux ARM Image
+
 ### 1. Clone this Repository
 
 First, clone this repository and change into its directory:
